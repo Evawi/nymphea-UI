@@ -8,7 +8,7 @@ var WebpackAutoInject = require('webpack-auto-inject-version');
 var version = require("./package.json");
 var myversion = JSON.stringify(version);
 var ver = JSON.parse(myversion).version;
-console.log(JSON.parse(myversion).version)
+console.log("Nymphea-UI",JSON.parse(myversion).version)
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
@@ -33,14 +33,21 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV:JSON.stringify(NODE_ENV) //чтоб добавилось именно значение
         }), //передает переменные в код из консоли то есть NODE_ENV=release webpack так передастся переменная NODE_ENV и собираться все будет под девелоп (пиши через conEmu)
-        /*new webpack.ProvidePlugin({
+
+        new webpack.ProvidePlugin({
          $: "jquery",
          jQuery: "jquery"
          }),
          new webpack.ProvidePlugin({
          $ : "jquery",
          _ : "underscore"
-         }),*/
+         }),
+        new webpack.ProvidePlugin({
+            $ : "jquery",
+            Nya : [__dirname+"/nymphea/nymphea.v_0.0.0.js",'default'], //подключение моих вп модулей
+            _ : "underscore"
+        }),
+
         new WebpackAutoInject(),
         new webpack.optimize.CommonsChunkPlugin({
             children: true,
