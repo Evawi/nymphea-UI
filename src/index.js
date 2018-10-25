@@ -18,11 +18,18 @@
 
 import COMPONENT  from './class/component.class.jsx';
 
-class nymphea_ui {}
+import INPUT  from './component/input/input.jsx';
+
+require("./style/default_style.less");
+class nymphea_ui {
+
+}
 
 const NYMPHEA_UI = new nymphea_ui();
 NYMPHEA_UI.COMPONENT   = COMPONENT;
-
+NYMPHEA_UI.INPUT       = {
+    input:INPUT
+};
 
 
 export default NYMPHEA_UI

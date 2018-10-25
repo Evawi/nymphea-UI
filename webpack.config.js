@@ -1,6 +1,6 @@
 'use strict';
 //ENV=prod webpack --config webpack.config.js -p сборка в прод
-const NODE_ENV = process.env.NODE_ENV || 'develop';
+const NODE_ENV = process.env.NODE_ENV || 'dev';
 const path = require('path');
 const webpack = require('webpack');
 var WebpackAutoInject = require('webpack-auto-inject-version');
@@ -9,7 +9,7 @@ var version = require("./package.json");
 var myversion = JSON.stringify(version);
 var ver = JSON.parse(myversion).version;
 console.log("Nymphea-UI",JSON.parse(myversion).version)
-
+console.log("Nymphea-UI NODE_ENV",NODE_ENV)
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
@@ -24,8 +24,8 @@ module.exports = {
         library:"[name]",
         libraryTarget: 'umd'
     },
-    devtool: NODE_ENV == 'develop' ? 'source-map' : false ,  //используется для дебага чтоб показывал как бы все исходники
-    watch:NODE_ENV == 'develop',  //автоматическая пересборка
+    devtool: NODE_ENV == 'dev' ? 'source-map' : false ,  //используется для дебага чтоб показывал как бы все исходники
+    watch:NODE_ENV == 'dev',  //автоматическая пересборка
     watchOptions:{
         aggregateTimeout:100 //ожидание после изменения
     },
@@ -33,27 +33,13 @@ module.exports = {
         new webpack.DefinePlugin({
             NODE_ENV:JSON.stringify(NODE_ENV) //чтоб добавилось именно значение
         }), //передает переменные в код из консоли то есть NODE_ENV=release webpack так передастся переменная NODE_ENV и собираться все будет под девелоп (пиши через conEmu)
-
-        new webpack.ProvidePlugin({
-         $: "jquery",
-         jQuery: "jquery"
-         }),
-         new webpack.ProvidePlugin({
-         $ : "jquery",
-         _ : "underscore"
-         }),
-        new webpack.ProvidePlugin({
-            $ : "jquery",
-            Nya : [__dirname+"/nymphea/nymphea.v_0.0.0.js",'default'], //подключение моих вп модулей
-            _ : "underscore"
-        }),
-
         new WebpackAutoInject(),
         new webpack.optimize.CommonsChunkPlugin({
             children: true,
             async: true,
         }),
-        new BundleAnalyzerPlugin()
+        //new BundleAnalyzerPlugin(),
+        //new ExtractTextPlugin("styles.css"),
     ],
 
     resolve:{ //настройка расположения модулей если не найдет по пути entry полезет сюда
@@ -87,15 +73,35 @@ module.exports = {
                         }
                     }]
             },
-            {test: /\.css$/, loader: 'style-loader!css-loader'},
+            {test: /\.css$/, loader: 'style-loader!css-loader'},/**/
             {test: /\.jpe?g$|\.gif$|\.png$|\.svg$|\.woff$|\.woff2$|\.eot$|\.ttf$|\.wav$|\.mp3$/, loader: "file-loader"} //остальные файлы
         ]
     }
 };
-
+if(NODE_ENV == 'dev'){
+    module.exports.plugins.push(
+        new webpack.ProvidePlugin({
+            React: 'react'
+        }),
+        new webpack.ProvidePlugin({
+            $: "jquery",
+            jQuery: "jquery"
+        }),
+        new webpack.ProvidePlugin({
+            $ : "jquery",
+            _ : "underscore"
+        }),
+        new webpack.ProvidePlugin({
+            $ : "jquery",
+            Nya : [__dirname+"/nymphea/nymphea.v_0.0.0.js",'default'], //подключение моих вп модулей
+            _ : "underscore"
+        }),
+        new BundleAnalyzerPlugin()
+    )
+}
 
 if(NODE_ENV == 'prod'){
-    module.exports.plugins = [
+    module.exports.plugins.push(
         new webpack.DefinePlugin({
             NODE_ENV:JSON.stringify(NODE_ENV)
         }),
@@ -104,7 +110,6 @@ if(NODE_ENV == 'prod'){
             children: true,
             async: true,
         }),
-        new BundleAnalyzerPlugin(),
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.optimize.UglifyJsPlugin({
             beautify: false,
@@ -119,5 +124,5 @@ if(NODE_ENV == 'prod'){
                 unsafe      : true
             }
         })
-    ]
+    )
 }

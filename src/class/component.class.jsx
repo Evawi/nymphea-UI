@@ -1,10 +1,8 @@
 'use strict';
-import React from 'react';
 
-export default class Component extends React.Component {
+export default class ComponentReat extends React.Component {
     constructor(props = {}){
         super();
-        this.setDefault    = this.setDefault.bind(this);
         this.setData       = this.setData.bind(this);
         this.getData       = this.getData.bind(this);
         this.getRefs       = this.getRefs.bind(this);
@@ -13,14 +11,23 @@ export default class Component extends React.Component {
             list:[]
         }
     }
-    setDefault(){
-
-    }
     setData(props){
-        this.setState(props);
+        _.each(this.refs,function(node,key){
+            if(node.setData) node.setData({key:props.key});
+        });
     }
     getData(){
-        return this.state
+        let values={};
+        let datas={};
+        _.each(this.refs,function(node,key){
+           if($(node).value)  values[key]= $(node).value;
+           if(node.getData)   datas[key]= node.getData();
+        });
+        return {
+            state  :this.state,
+            values :values,
+            datas  :datas
+        }
     }
     getRefs(){
         return this.refs;
