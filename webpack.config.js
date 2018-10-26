@@ -51,6 +51,9 @@ module.exports = {
     },
     module: {
         loaders: [
+
+
+
             {
                 test: /\.(js|jsx)$/, //формат
                 exclude: /node_modules/,

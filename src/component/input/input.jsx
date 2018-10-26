@@ -1,5 +1,4 @@
 'use strict';
-
 import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
 require("./input.less");
