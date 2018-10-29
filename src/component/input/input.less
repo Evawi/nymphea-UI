@@ -6,10 +6,33 @@
   &.error{
 
   }
+  label.nymphea_input__label{
+    &.left{
+      line-height:@input-h;
+      margin-right:@ind-s;
+    }
+    &.top{
+      display:block;
+    }
+  }
+
   .nymphea_input__field{
-    height: @input-h;
+    input[type=text].nymphea_input__element {
+      height: @input-h;
+      border-radius: 0;
+      padding: 0 @ind-m;
+      line-height:@input-h;
+    }
   }
   .nymphea_input__popup_error {
     position: absolute;
   }
+
+  &.have_input_label_top{
+    display:block;
+    .nymphea_input__field{
+      display:block;
+    }
+  }
+
 }

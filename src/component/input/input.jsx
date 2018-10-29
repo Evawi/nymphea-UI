@@ -27,7 +27,13 @@ require("./input.less");
 export default class INPUT extends COMPONENT {
     constructor(props = {}){
         super();
+
+        this.CONSTVIEW = {
+            name:"input"
+        };
+
         this.onChange       = this.onChange.bind(this);
+        this.mainClass      = this.mainClass.bind(this);
 
         this.state = {
             error       :false,
@@ -42,15 +48,18 @@ export default class INPUT extends COMPONENT {
             if(self.props.onBlur)self.props.onBlur(e)
         })
     }
+    checkNumber(str){
+        var toNumberRegXep = /[^a-zA-Zа-яА-Я_|]/;
+        var test = toNumberRegXep.test(str);
+        return test
+    }
     onChange(e){
         let error = false
         if(!e.target.value && this.props.checkEmpty){
             error = true
         }
         if(this.props.type == "number") {
-            var toNumberRegXep = /[^a-zA-Zа-яА-Я_|]/;
-            var test = toNumberRegXep.test(e.target.value);
-            if(test || !e.target.value){
+            if(this.checkNumber(e.target.value) || !e.target.value){
                 this.setState({value:e.target.value,error:error});
             }else{
                 error = true;
@@ -61,12 +70,29 @@ export default class INPUT extends COMPONENT {
         }
         if(this.props.onChange)this.props.onChange({value:e.target.value,key_value:this.props.key_value});
     }
+    mainClass(){
+        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ DependencyUI.input().mainClass;
+        if(this.state.disabled){
+            cssClass += " disabled ";
+        }
+        if(this.state.error){
+            cssClass += " error ";
+        }
+        if(this.props.label){
+            let labelPosition = this.props.labelPosition || "left"
+            cssClass += " have_"+this.CONSTVIEW.name+"_label_"+labelPosition+" ";
+        }
+        if(this.state.popupError){
+            cssClass += " have_"+this.CONSTVIEW.name+"_popupError ";
+        }
+        return cssClass
+    }
     render(){
         let self = this;
-        let classInput = " nymphea_input " + DependencyUI.input().mainClass;
 
         let label;
-        let classLabel = " nymphea_input__label "+ this.props.labelPosition || "left";
+        let labelPosition = this.props.labelPosition || "left"
+        let classLabel = " nymphea_input__label "+ labelPosition;
 
         let classInput__field = " nymphea_input__field " + DependencyUI.input().formField;
 
@@ -77,26 +103,15 @@ export default class INPUT extends COMPONENT {
 
         var type = this.props.type;
 
-        if(this.state.disabled){
-            classInput += " disabled ";
-        }
         if(this.state.error){
-            classInput += " error ";
             classInput__field += " error ";
         }
 
         if(this.props.label){
-            classInput += " input_label ";
             label= [<label key="label" className={classLabel}>{this.props.label}</label>]
         }
 
-        if(this.props.popupLabel){
-            classInput += " input_popupLabel ";
-            classInput__popup_label  += " nymphea_input__popup_label " + popupLabelPosition;
-        }
-
         if(this.state.popupError){
-            classInput += " input_popupError ";
             popupError = [ <div key="popupError" className="nymphea_input__popup_error ui pointing red basic label">
                                 {this.state.popupError}
                             </div>]
@@ -106,11 +121,12 @@ export default class INPUT extends COMPONENT {
             type = "text"
         }
         return(
-            <div className={classInput}>
+            <div className={this.mainClass()}>
                 {label}
                 <div className={classInput__field} >
                     <div ref="classInput__popup" className={classInput__popup_label} data-tooltip={self.props.popupLabel} data-position={self.props.popupLabelPosition || "bottom right"} >
                         <input
+                            className="nymphea_input__element"
                             ref="editor"
                             min={this.props.min ||""}
                             max={this.props.max ||""}

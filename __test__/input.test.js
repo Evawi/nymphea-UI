@@ -4,32 +4,69 @@ import INPUT from '../src/component/input/input'
 import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 
+
 //чтоб обновить снапшоты юзай npm test -- -u  если запустишь просто npm test тест ругнется на новый элемент
 
 
-/*describe('>>>Input --- Shallow Render REACT COMPONENTS',()=>{
-    let wrapper
-    const output = 10
+describe('>>>INPUT simple',()=>{
 
-    beforeEach(()=>{
-        wrapper = shallow(<Input />)
-
-    })
-
-    it('+++ render the DUMB component', () => {
-        expect(wrapper.length).toEqual(1)
-    });
-
-    it('+++ contains output', () => {
-        expect(wrapper.find('input[placeholder="Output"]').prop('value')).toEqual(output)
-    });
-
-});*/
-
-describe('>>>Input--- Snapshot',()=>{
-
-    it('+++capturing Snapshot of Input', () => {
+    it('+++Snapshot default ', () => {
         const renderedValue =  renderer.create(<INPUT />).toJSON()
         expect(renderedValue).toMatchSnapshot();
+    });
+    it('+++Snapshot PROPS popupLabel ', () => {
+        const renderedValue =  renderer.create(
+            <INPUT
+                 popupLabel="label value"
+            />
+        ).toJSON()
+        expect(renderedValue).toMatchSnapshot();
+    });
+    it('+++Snapshot STATE error', () => {
+        const input = shallow(
+            <INPUT type="number" />
+        );
+        input.find('input').simulate('change', {target: {value: 'abc'} });
+        const renderedValue =  renderer.create(<INPUT />).toJSON()
+        expect(renderedValue).toMatchSnapshot();
+    });
+    it('---should handle the onChange event', () => {
+        const mockFn = jest.fn();
+        const input = shallow(
+            <INPUT  />
+        );
+        input.find('input').simulate('change', {target: {value: 'matched'} });
+        expect(input.state().value).toEqual('matched');
+        expect(input.state().error).toEqual(false);
+    });
+
+    it('---should handle the onChange event PROPS checkEmpty', () => {
+        const mockFn = jest.fn();
+        const input = shallow(
+            <INPUT
+             checkEmpty={true}
+                />
+        );
+        input.find('input').simulate('change', {target: {value: ''} });
+        expect(input.state().value).toEqual('');
+        expect(input.state().error).toEqual(true);
+    });
+    it('---should handle the onChange event PROPS type NUMBER', () => {
+        const mockFn = jest.fn();
+        const input = shallow(
+            <INPUT type="number" />
+        );
+        input.find('input').simulate('change', {target: {value: '123'} });
+        expect(input.state().value).toEqual('123');
+        expect(input.state().error).toEqual(false);
+    });
+    it('---should handle the onChange event PROPS type NUMBER error', () => {
+        const mockFn = jest.fn();
+        const input = shallow(
+            <INPUT type="number" />
+        );
+        input.find('input').simulate('change', {target: {value: 'abc'} });
+        expect(input.state().value).toEqual('');
+        expect(input.state().error).toEqual(true);
     });
 });

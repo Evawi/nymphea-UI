@@ -1,6 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`>>>Input--- Snapshot +++capturing Snapshot of Input 1`] = `
+exports[`>>>INPUT simple +++Snapshot PROPS popupLabel  1`] = `
+<div
+  className=" nymphea_input "
+>
+  <div
+    className=" nymphea_input__field "
+  >
+    <div
+      className=" nymphea_input__popup_label  bottom center "
+      data-position="bottom right"
+      data-tooltip="label value"
+    >
+      <input
+        className="nymphea_input__element"
+        max=""
+        maxLength=""
+        min=""
+        onChange={[Function]}
+        pattern=""
+        placeholder=""
+        title=""
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`>>>INPUT simple +++Snapshot STATE error 1`] = `
 <div
   className=" nymphea_input "
 >
@@ -12,6 +41,35 @@ exports[`>>>Input--- Snapshot +++capturing Snapshot of Input 1`] = `
       data-position="bottom right"
     >
       <input
+        className="nymphea_input__element"
+        max=""
+        maxLength=""
+        min=""
+        onChange={[Function]}
+        pattern=""
+        placeholder=""
+        title=""
+        type="text"
+        value=""
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`>>>INPUT simple +++Snapshot default  1`] = `
+<div
+  className=" nymphea_input "
+>
+  <div
+    className=" nymphea_input__field "
+  >
+    <div
+      className=" nymphea_input__popup_label  bottom center "
+      data-position="bottom right"
+    >
+      <input
+        className="nymphea_input__element"
         max=""
         maxLength=""
         min=""

@@ -16,7 +16,9 @@
   },
   "jest": {
     "scriptPreprocessor": "<rootDir>/node_modules/babel-jest",
-    "setupFiles": ["./test-env.js"],
+    "setupFiles": [
+      "./test-env.js"
+    ],
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/react",
       "<rootDir>/node_modules/react-dom",
@@ -36,6 +38,7 @@
     "babel-preset-react": "6.3.13",
     "css-loader": "^0.28.4",
     "enzyme": "^3.7.0",
+    "enzyme-adapter-react-15": "^1.1.1",
     "extract-loader": "^3.0.0",
     "file-loader": "^0.11.2",
     "identity-obj-proxy": "^3.0.0",

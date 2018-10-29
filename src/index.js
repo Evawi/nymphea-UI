@@ -32,4 +32,17 @@ NYMPHEA_UI.INPUT       = {
 };
 
 
+
+/*ReactDom.render(
+    React.createElement(INPUT,{
+        placeholder:"placeholder",
+        label:"label",
+        popupLabel:"popupLabel"
+    }),
+    document.getElementById("page"),
+    function(obj){
+
+    }
+)*/
+
 export default NYMPHEA_UI

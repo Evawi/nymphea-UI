@@ -19,7 +19,6 @@ class UsedDependencyUI{
                 }
             }
         }
-
         SELF.input = SELF.input.bind(this);
     }
     input(){

@@ -1,5 +1,6 @@
 'use strict';
-//ENV=prod webpack --config webpack.config.js -p сборка в прод
+//NODE_ENV=prod webpack --config webpack.config.js -p сборка в прод
+//NODE_ENV=dev webpack сборка в dev
 const NODE_ENV = process.env.NODE_ENV || 'dev';
 const path = require('path');
 const webpack = require('webpack');
@@ -51,9 +52,6 @@ module.exports = {
     },
     module: {
         loaders: [
-
-
-
             {
                 test: /\.(js|jsx)$/, //формат
                 exclude: /node_modules/,
@@ -84,7 +82,8 @@ module.exports = {
 if(NODE_ENV == 'dev'){
     module.exports.plugins.push(
         new webpack.ProvidePlugin({
-            React: 'react'
+            React: 'react',
+            ReactDom: 'react-dom'
         }),
         new webpack.ProvidePlugin({
             $: "jquery",
@@ -98,8 +97,7 @@ if(NODE_ENV == 'dev'){
             $ : "jquery",
             Nya : [__dirname+"/nymphea/nymphea.v_0.0.0.js",'default'], //подключение моих вп модулей
             _ : "underscore"
-        }),
-        new BundleAnalyzerPlugin()
+        })
     )
 }
 
@@ -126,6 +124,7 @@ if(NODE_ENV == 'prod'){
                 //drop_console: true,
                 unsafe      : true
             }
-        })
+        }),
+        new BundleAnalyzerPlugin()
     )
 }
