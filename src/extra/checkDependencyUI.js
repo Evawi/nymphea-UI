@@ -34,6 +34,28 @@ class UsedDependencyUI{
             formField:formField
         }
     }
+    inputClickEdit(){
+        let SELF = this;
+        let mainClass = ""; //стиль элемента из UI зависимостей
+        let formField = "";
+        let iconEdit = "";
+        let iconCheck = "" ;
+        let iconCancel = ""
+        if(SELF.UI_Semantic) {
+            mainClass = " ui input form ";
+            formField = " field ";
+            iconEdit      = " edit icon ";
+            iconCheck   = " icon check ";
+            iconCancel = " close icon "
+        }
+        return {
+            mainClass:mainClass,
+            formField:formField,
+            iconEdit:iconEdit,
+            iconCheck:iconCheck,
+            iconCancel:iconCancel
+        }
+    }
     inputWithBtn(){
 
     }

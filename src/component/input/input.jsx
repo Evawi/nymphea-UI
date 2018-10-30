@@ -29,7 +29,8 @@ export default class INPUT extends COMPONENT {
         super();
 
         this.CONSTVIEW = {
-            name:"input"
+            name:"input",
+            mainClass: DependencyUI.input().mainClass
         };
 
         this.onChange       = this.onChange.bind(this);
@@ -71,7 +72,7 @@ export default class INPUT extends COMPONENT {
         if(this.props.onChange)this.props.onChange({value:e.target.value,key_value:this.props.key_value});
     }
     mainClass(){
-        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ DependencyUI.input().mainClass;
+        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
         if(this.state.disabled){
             cssClass += " disabled ";
         }
@@ -79,7 +80,7 @@ export default class INPUT extends COMPONENT {
             cssClass += " error ";
         }
         if(this.props.label){
-            let labelPosition = this.props.labelPosition || "left"
+            let labelPosition = this.props.labelPosition || "left";
             cssClass += " have_"+this.CONSTVIEW.name+"_label_"+labelPosition+" ";
         }
         if(this.state.popupError){

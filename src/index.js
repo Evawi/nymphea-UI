@@ -16,10 +16,13 @@
  */
 
 
+//import 'semantic-ui-css/semantic.min.js';
+//import 'semantic-ui-css/semantic.min.css';
+
 import COMPONENT  from './class/component.class.jsx';
 
-import INPUT  from './component/input/input.jsx';
-
+import INPUT             from './component/input/input.jsx';
+import CLICKEdit  from './component/input/inputClickEdit.jsx';
 require("./style/default_style.less");
 class nymphea_ui {
 
@@ -28,16 +31,19 @@ class nymphea_ui {
 const NYMPHEA_UI = new nymphea_ui();
 NYMPHEA_UI.COMPONENT   = COMPONENT;
 NYMPHEA_UI.INPUT       = {
-    input:INPUT
+    base : INPUT,
+    clickEdit :CLICKEdit
 };
 
 
-
-/*ReactDom.render(
-    React.createElement(INPUT,{
+/*
+ReactDom.render(
+    React.createElement(INPUTDOUBLECLICK,{
         placeholder:"placeholder",
         label:"label",
-        popupLabel:"popupLabel"
+        popupLabel:"popupLabel",
+        active:"btn",
+        checkEmpty:true
     }),
     document.getElementById("page"),
     function(obj){
