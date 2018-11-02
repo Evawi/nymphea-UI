@@ -13,7 +13,7 @@ export default class ComponentReat extends React.Component {
     }
     setData(props){
         _.each(this.refs,function(node,key){
-            if(node.setData) node.setData({key:props.key});
+            if(node.setData) node.setData({key:props[key]});
         });
     }
     getData(){

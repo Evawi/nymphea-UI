@@ -88,6 +88,9 @@ export default class INPUT extends COMPONENT {
         }
         return cssClass
     }
+    setData(props){
+        if(props.value != undefined) this.setState({value:props.value})
+    }
     render(){
         let self = this;
 

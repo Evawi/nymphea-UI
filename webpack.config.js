@@ -95,7 +95,7 @@ if(NODE_ENV == 'dev'){
         }),
         new webpack.ProvidePlugin({
             $ : "jquery",
-            Nya : [__dirname+"/nymphea/nymphea.v_0.0.0.js",'default'], //подключение моих вп модулей
+            Nya : [__dirname+"/nymphea/nymphea.v_0.0.1.js",'default'], //подключение моих вп модулей
             _ : "underscore"
         })
     )
