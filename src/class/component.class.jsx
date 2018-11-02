@@ -12,8 +12,9 @@ export default class ComponentReat extends React.Component {
         }
     }
     setData(props){
-        _.each(this.refs,function(node,key){
-            if(node.setData) node.setData({key:props[key]});
+        let self = this
+        _.each(props,function(node,key){
+            if(self.refs[key].setData) self.refs[key].setData(node);
         });
     }
     getData(){
