@@ -35,19 +35,22 @@ NYMPHEA_UI.INPUT       = {
     clickEdit :CLICKEdit
 };
 
+/*let a = {};
+let onC = function(){
+    console.log(a.getData())
+}
 
-/*
 ReactDom.render(
-    React.createElement(INPUTDOUBLECLICK,{
+    React.createElement(INPUT,{
         placeholder:"placeholder",
         label:"label",
         popupLabel:"popupLabel",
-        active:"btn",
-        checkEmpty:true
+        checkEmpty:true,
+        onChange:onC
     }),
     document.getElementById("page"),
     function(obj){
-
+        a.getData = this.getData
     }
 )*/
 

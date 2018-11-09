@@ -21,7 +21,7 @@ export default class ComponentReat extends React.Component {
         let values={};
         let datas={};
         _.each(this.refs,function(node,key){
-           if($(node).value)  values[key]= $(node).value;
+           if($(node).val())  values[key]= $(node).val();
            if(node.getData)   datas[key]= node.getData();
         });
         return {
