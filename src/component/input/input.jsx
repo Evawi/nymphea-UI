@@ -50,7 +50,7 @@ export default class INPUT extends COMPONENT {
         })
     }
     checkNumber(str){
-        var toNumberRegXep = /[^a-zA-Zа-яА-Я_|]/;
+        var toNumberRegXep = /^\d+$/;
         var test = toNumberRegXep.test(str);
         return test
     }
@@ -69,7 +69,7 @@ export default class INPUT extends COMPONENT {
         }else{
             this.setState({value:e.target.value,error:error});
         }
-        if(this.props.onChange)this.props.onChange({value:e.target.value,key_value:this.props.key_value});
+        if(this.props.onChange)this.props.onChange({value:e.target.value,error:error,key_value:this.props.key_value});
     }
     mainClass(){
         let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
