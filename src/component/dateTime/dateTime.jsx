@@ -4,7 +4,6 @@ import DependencyUI  from '../../extra/checkDependencyUI.js';
 require("./checkbox.less");
 /* props:
  * toggle = true||false default false , обчная галка или переключатель
- * slider = true||false default false , обчная галка или slider
  * placeholder   = "placeholder" || ""
  * label         = "label value" || ""
  * labelPosition = "left" || "right"        default "left"
@@ -18,7 +17,6 @@ require("./checkbox.less");
  * */
 
 /*state
- * label         = "label value" || "" // на случай если лабел изменяется от состояния
  * disabled =
  * error =
  * popupError = "label value" || "" //
@@ -30,11 +28,9 @@ export default class CHECKBOX extends COMPONENT {
         super();
 
         this.CONSTVIEW = {
-            name:"checkbox",
-            mainClass: DependencyUI.checkbox().mainClass,
-            toggleType: DependencyUI.checkbox().toggleType,
-            sliderType: DependencyUI.checkbox().sliderType,
-            label:null
+            name:"dateTime",
+            mainClass: DependencyUI.dateTime().mainClass,
+            formField: DependencyUI.dateTime().formField,
         };
 
         this.onChange       = this.onChange.bind(this);
@@ -44,25 +40,39 @@ export default class CHECKBOX extends COMPONENT {
             error       :false,
             disabled    :false,
             popupError  :false,
-            value       :false
+            value       :""
         }
     }
     componentDidMount(){
         let self = this;
+        this.calendar = $(this.refs.datetime).calendar({
+            ampm: false,
+            type: self.props.typeDate  || "datetime",
+            onChange:function(date , text , mode){
+                if(self.props.onChange){
+                    self.props.onChange({date:date,text:text,key_value:self.props.key_value})
+                }
+            },
+            onHidden:function(e , text , mode){
+                let error = false
+                if(self.props.checkEmpty && !self.calendar.calendar('get date')){
+                    error = true
+                }
+                self.setState({error:error});
+            }
+        });
         $(this.refs.editor).blur(function(e){
             if(self.props.onBlur)self.props.onBlur(e)
         })
     }
     onChange(e){
-        let self = this;
         let error = false;
         let val = this.state.value? false : true;
         if(!val && this.props.checkEmpty){
             error = true
         }
-        this.setState({value:val,error:error},function(){
-            if(self.props.onChange)self.props.onChange({value:val,error:error,key_value:this.props.key_value});
-        });
+        this.setState({value:val,error:error});
+        if(this.props.onChange)this.props.onChange({value:val,error:error,key_value:this.props.key_value});
     }
     mainClass(){
         let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
@@ -81,9 +91,6 @@ export default class CHECKBOX extends COMPONENT {
         }
         if(this.props.toggle){
             cssClass += this.CONSTVIEW.toggleType
-        }
-        if(this.props.slider){
-            cssClass += this.CONSTVIEW.sliderType
         }
         return cssClass
     }
@@ -110,8 +117,8 @@ export default class CHECKBOX extends COMPONENT {
         if(this.state.error){
             classInput__field += " error ";
         }
-        if(this.state.label || this.props.label){
-            label= [<label key="label" className={classLabel}>{this.state.label || this.props.label}</label>]
+        if(this.props.label){
+            label= [<label key="label" className={classLabel}>{this.props.label}</label>]
         }
         if(this.state.popupError){
             popupError = [ <div key="popupError" key="popupError" className="nymphea_input__popup_error ui pointing red basic label">
@@ -120,17 +127,21 @@ export default class CHECKBOX extends COMPONENT {
         }
         if(this.props.clickToLabel){
             input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
-            label= [<label key="label" className={classLabel} onClick={this.onChange} >{this.state.label || this.props.label}</label>]
+            label= [<label key="label" className={classLabel} onClick={this.onChange} >{this.props.label}</label>]
         }else{
             input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} onChange={this.onChange}  />]
         }
         return(
             <div className={this.mainClass()}>
+                {label}
                 <div className={classInput__field} >
-                    <div ref="classInput__popup" className={classInput__popup_label} data-tooltip={self.props.popupLabel} data-position={self.props.popupLabelPosition || "bottom right"} >
-                        {input}
-                        {label}
+                    <div ref="datetime"  className=={classInput__popup_label} "ui calendar"  data-tooltip={self.props.popupLabel} data-position={self.props.popupLabelPosition || "bottom right"}>
+                        <div className={classInput} >
+                            {this.props.typeDate == "time" ? <i className="time icon"></i> : <i className="calendar icon"></i>}
+                            <input type="text" placeholder="Date/Time"  />
+                        </div>
                     </div>
+
                     {popupError}
                 </div>
             </div>

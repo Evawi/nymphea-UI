@@ -50,7 +50,7 @@ export default class INPUT extends COMPONENT {
         })
     }
     checkNumber(str){
-        var toNumberRegXep = /^\d+$/;
+        var toNumberRegXep = /^-?\d+\.?\d*$/;
         var test = toNumberRegXep.test(str);
         return test
     }
@@ -60,7 +60,7 @@ export default class INPUT extends COMPONENT {
             error = true
         }
         if(this.props.type == "number") {
-            if(this.checkNumber(e.target.value) || !e.target.value){
+            if(this.checkNumber(e.target.value) || !e.target.value || e.target.value=="-"){
                 this.setState({value:e.target.value,error:error});
             }else{
                 error = true;
@@ -123,6 +123,9 @@ export default class INPUT extends COMPONENT {
 
         if(this.props.type == "number"){
             type = "text"
+        }
+        if(this.state.disabled){
+            classInput__field += " disabled ";
         }
         return(
             <div className={this.mainClass()}>

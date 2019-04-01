@@ -1,40 +1,34 @@
 'use strict';
 import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
-require("./checkbox.less");
+//require("./input.less");
 /* props:
- * toggle = true||false default false , обчная галка или переключатель
- * slider = true||false default false , обчная галка или slider
  * placeholder   = "placeholder" || ""
+ * rows         = 100 || ""
  * label         = "label value" || ""
- * labelPosition = "left" || "right"        default "left"
+ * labelPosition = "left" || "top"        default "left"
  * popupLabel    = "label value" || "" //всплывающая подсказка
  * popupLabelPosition =    default "top center"
  * checkEmpty    = true || false
- * clickToLabel  = true || false  default false
  *
  * onBlur = fnc
  * onChange = fnc
  * */
 
 /*state
- * label         = "label value" || "" // на случай если лабел изменяется от состояния
  * disabled =
  * error =
  * popupError = "label value" || "" //
  * value
  * */
 
-export default class CHECKBOX extends COMPONENT {
+export default class INPUT extends COMPONENT {
     constructor(props = {}){
         super();
 
         this.CONSTVIEW = {
-            name:"checkbox",
-            mainClass: DependencyUI.checkbox().mainClass,
-            toggleType: DependencyUI.checkbox().toggleType,
-            sliderType: DependencyUI.checkbox().sliderType,
-            label:null
+            name:"textarea",
+            mainClass:DependencyUI.textarea().mainClass
         };
 
         this.onChange       = this.onChange.bind(this);
@@ -44,7 +38,7 @@ export default class CHECKBOX extends COMPONENT {
             error       :false,
             disabled    :false,
             popupError  :false,
-            value       :false
+            value       :""
         }
     }
     componentDidMount(){
@@ -54,18 +48,15 @@ export default class CHECKBOX extends COMPONENT {
         })
     }
     onChange(e){
-        let self = this;
-        let error = false;
-        let val = this.state.value? false : true;
-        if(!val && this.props.checkEmpty){
+        let error = false
+        if(!e.target.value && this.props.checkEmpty){
             error = true
         }
-        this.setState({value:val,error:error},function(){
-            if(self.props.onChange)self.props.onChange({value:val,error:error,key_value:this.props.key_value});
-        });
+        this.setState({value:e.target.value,error:error});
+        if(this.props.onChange)this.props.onChange({value:e.target.value,error:error,key_value:this.props.key_value});
     }
     mainClass(){
-        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
+        let cssClass = "nymphea nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
         if(this.state.disabled){
             cssClass += " disabled ";
         }
@@ -79,12 +70,6 @@ export default class CHECKBOX extends COMPONENT {
         if(this.state.popupError){
             cssClass += " have_"+this.CONSTVIEW.name+"_popupError ";
         }
-        if(this.props.toggle){
-            cssClass += this.CONSTVIEW.toggleType
-        }
-        if(this.props.slider){
-            cssClass += this.CONSTVIEW.sliderType
-        }
         return cssClass
     }
     setData(props){
@@ -93,43 +78,48 @@ export default class CHECKBOX extends COMPONENT {
     render(){
         let self = this;
 
-
+        let label;
         let labelPosition = this.props.labelPosition || "left"
-        let classLabel = " nymphea_"+this.CONSTVIEW.name+"__label "+ labelPosition;
+        let classLabel = "nymphea__label nymphea_"+this.CONSTVIEW.name+"__label "+ labelPosition;
 
-
-        let classInput__field = " nymphea_"+this.CONSTVIEW.name+"__field ";
+        let classInput__field = "nymphea__field nymphea_"+this.CONSTVIEW.name+"__field ";
 
         let popupLabelPosition = this.props.popupLabelPosition || " bottom center ";
-        let classInput__popup_label = " nymphea_"+this.CONSTVIEW.name+"__popup_label " + popupLabelPosition;
+        let classInput__popup_label = "nymphea__popup_label nymphea_"+this.CONSTVIEW.name+"__popup_label " + popupLabelPosition;
 
-        let input;
-        let label;
         let popupError;
 
         if(this.state.error){
             classInput__field += " error ";
         }
-        if(this.state.label || this.props.label){
-            label= [<label key="label" className={classLabel}>{this.state.label || this.props.label}</label>]
+
+        if(this.props.label){
+            label= [<label key="label" className={classLabel}>{this.props.label}</label>]
         }
+
         if(this.state.popupError){
-            popupError = [ <div key="popupError" key="popupError" className="nymphea_input__popup_error ui pointing red basic label">
+            let errorPClass = "nymphea__popup_error  nymphea_"+this.CONSTVIEW.name+"__popup_error ui pointing red basic label";
+            popupError = [ <div key="popupError" className={errorPClass}>
                 {this.state.popupError}
             </div>]
         }
-        if(this.props.clickToLabel){
-            input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
-            label= [<label key="label" className={classLabel} onClick={this.onChange} >{this.state.label || this.props.label}</label>]
-        }else{
-            input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} onChange={this.onChange}  />]
-        }
+
         return(
             <div className={this.mainClass()}>
+                {label}
                 <div className={classInput__field} >
                     <div ref="classInput__popup" className={classInput__popup_label} data-tooltip={self.props.popupLabel} data-position={self.props.popupLabelPosition || "bottom right"} >
-                        {input}
-                        {label}
+                        <textarea
+                            className={"nymphea_"+this.CONSTVIEW.name+"__element"}
+                            ref="editor"
+                            rows={this.props.rows ||""}
+                            title={this.props.title ||""}
+                            placeholder={this.props.placeholder||""}
+                            onChange={this.onChange}
+                            value= {this.state.value}
+                        >
+
+                        </textarea>
                     </div>
                     {popupError}
                 </div>

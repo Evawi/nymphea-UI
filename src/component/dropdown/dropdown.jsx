@@ -3,6 +3,9 @@ import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
 require("./dropdown.less");
 
+//props
+//notSearch - если true убирает поле ввода из dropdown
+
 export default class DROPDOWN extends COMPONENT {
     constructor(props){
         super();
@@ -75,7 +78,12 @@ export default class DROPDOWN extends COMPONENT {
     }
     render(){
         var self = this;
-        let classDropdown = " ui fluid search selection dropdown "
+        let ddIcon = [<i key="ddicon" className="dropdown icon"></i>]
+        let classDropdown = " ui fluid search selection dropdown ";
+        if(this.props.notSearch)  {
+            classDropdown = "ui dropdown label ";
+
+        }
         if(this.state.disabled) classDropdown += " disabled ";
 
         return(
@@ -88,8 +96,9 @@ export default class DROPDOWN extends COMPONENT {
                     :null}
                 <div className={classDropdown}  ref="dropdown">
                     <input type="hidden" />
-                    <i className="dropdown icon"></i>
+                    {this.props.notSearch? null:ddIcon}
                     <div className="default text">Select any value</div>
+                    {this.props.notSearch? ddIcon:null}
                 </div>
             </div>
         )

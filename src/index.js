@@ -33,6 +33,8 @@ import DROPDOWN         from './component/dropdown/dropdown.jsx';
 
 import CHECKBOX from './component/checkbox/checkbox.jsx';
 
+import LABEL        from './component/label/label.jsx';
+import TEXTAREA     from './component/textarea/textarea.jsx';
 require("./style/default_style.less");
 class nymphea_ui {
 
@@ -53,6 +55,12 @@ NYMPHEA_UI.DROPDOWN={
 };
 NYMPHEA_UI.CHECKBOX={
     base : CHECKBOX //IM NOT READY!!!!
+};
+NYMPHEA_UI.LABEL={
+    base : LABEL
+};
+NYMPHEA_UI.TEXTAREA={
+    base : TEXTAREA
 };
 
 NYMPHEA_UI.reinit = DependencyUI.reinit;

@@ -118,13 +118,49 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let toggleType = "";
+        let sliderType = "";
         if(SELF.UI_Semantic) {
             mainClass = " ui checkbox ";
-            toggleType = " toggle "
+            toggleType = " toggle ";
+            sliderType = " slider ";
         }
         return {
             mainClass:mainClass,
-            toggleType:toggleType
+            toggleType:toggleType,
+            sliderType:sliderType
+        }
+    }
+    dateTime(){
+        let SELF = this;
+        let mainClass = ""; //стиль элемента из UI зависимостей
+        let formField = "";
+        if(SELF.UI_Semantic) {
+            mainClass = " ui calendar form ";
+            formField = " ui calendar "
+        }
+        return {
+            mainClass:mainClass,
+            formField:formField
+        }
+    }
+    label(){
+        let SELF = this;
+        let mainClass = ""; //стиль элемента из UI зависимостей
+        if(SELF.UI_Semantic) {
+            mainClass = " ui label ";
+        }
+        return {
+            mainClass:mainClass,
+        }
+    }
+    textarea(){
+        let SELF = this;
+        let mainClass = ""; //стиль элемента из UI зависимостей
+        if(SELF.UI_Semantic) {
+            mainClass = " ui textarea form";
+        }
+        return {
+            mainClass:mainClass,
         }
     }
     dropdown(){
