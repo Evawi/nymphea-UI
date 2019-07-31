@@ -97,7 +97,7 @@ export default class DROPDOWN extends COMPONENT {
                 <div className={classDropdown}  ref="dropdown">
                     <input type="hidden" />
                     {this.props.notSearch? null:ddIcon}
-                    <div className="default text">Select any value</div>
+                    <div className="default text">{this.props.placeholder}</div>
                     {this.props.notSearch? ddIcon:null}
                 </div>
             </div>

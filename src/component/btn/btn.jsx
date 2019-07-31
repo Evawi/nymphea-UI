@@ -4,6 +4,7 @@ import DependencyUI  from '../../extra/checkDependencyUI.js';
 require("./btn.less");
 
 /* props:
+ * key_value = "some key" опознавательный ключ, отправляется при onClick
  * popupLabel    = "label value" || "" //всплывающая подсказка
  * popupLabelPosition =    default "bottom right"
  * popupErrorPosition =  default ""  //"" || "below" || "left" || "right"  //позиция ошибки
@@ -19,7 +20,8 @@ require("./btn.less");
  * error =
  * popupError = "label value" || "" //
  * name = "name btn" || "" //если есть, добавит на кнопку название
- * icon = "name icon" ||"" //если есть будет рисовать иконку в названии
+ * icon = "name icon" ||"" //если есть будет рисовать иконку в названии перекрывает props.icon
+ * class= "name_class" ||"" //дополнительный стиль для кноки добавляется к props.class
  * */
 
 
@@ -40,11 +42,12 @@ export default class BTN extends COMPONENT {
             showPopupError:false,
             popupError  :false,
             name        :props.name,
-            icon        :props.icon || ""
+            icon        :props.icon || "",
+            class:      ""
         }
     }
     onClick(){
-        this.props.onClick()
+        this.props.onClick({key_value:this.props.key_value})
     }
     onClickWr(){
         let self = this;
@@ -67,6 +70,9 @@ export default class BTN extends COMPONENT {
         }
         if(this.props.class){
             cssClass += " "+this.props.class+" ";
+        }
+        if(this.state.class){
+            cssClass += " "+this.state.class+" ";
         }
         if(this.state.popupError){
             cssClass += " have_"+this.CONSTVIEW.name+"_popupError ";
