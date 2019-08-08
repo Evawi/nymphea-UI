@@ -111,8 +111,8 @@ export default class INPUT extends COMPONENT {
             classInput__field += " error ";
         }
 
-        if(this.props.label){
-            label= [<label key="label" className={classLabel}>{this.props.label}</label>]
+        if(this.state.label || this.props.label){
+            label= [<label key="label" className={classLabel}>{this.state.label || this.props.label}</label>]
         }
 
         if(this.state.popupError){

@@ -17,7 +17,7 @@
 
 
 import 'semantic-ui-css/semantic.min.js';
-import 'semantic-ui-css/semantic.min.css';
+//import 'semantic-ui-css/semantic.min.css';
 */
 import DependencyUI  from './extra/checkDependencyUI.js';
 
@@ -73,10 +73,7 @@ let onC = function(e){
 /*
 ReactDom.render(
     React.createElement(DROPDOWN,{
-        popupLabel:"popupLabel",
-        checkEmpty:true,
-        modalOkBtn:"ok",
-        modalHeader:"modalHeader",
+        label:"label",
         onChange:onC
     }),
     document.getElementById("page"),
@@ -94,6 +91,7 @@ ReactDom.render(
 
         this.setList(list);
         this.setDefaultValue(   "sss333")
+        this.setState({error:true,popupError:"aaa",label:"sdfsfdsf"})
     }
 )*/
 

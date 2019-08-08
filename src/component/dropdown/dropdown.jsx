@@ -3,8 +3,25 @@ import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
 require("./dropdown.less");
 
-//props
-//notSearch - если true убирает поле ввода из dropdown
+/* props:
+ * notSearch - если true убирает поле ввода из dropdown
+ * placeholder   = "placeholder" || ""
+ * label         = "label value" || ""
+ * labelPosition = "left" || "top"        default "left"
+ * popupLabel    = "label value" || "" //всплывающая подсказка
+ * popupLabelPosition =    default "top center"
+ * floatingLabel = "" //дополнительный label
+ * floatingLabelPosition = "top center"
+ * onChange = fnc
+ * */
+
+/*state
+ * label =
+ * disabled =
+ * error =
+ * popupError = "label value" || "" //
+ * value
+ * */
 
 export default class DROPDOWN extends COMPONENT {
     constructor(props){
@@ -13,6 +30,10 @@ export default class DROPDOWN extends COMPONENT {
         this.setDisabled = this.setDisabled.bind(this);
         this.setList     = this.setList.bind(this);
         this.setDefaultValue     = this.setDefaultValue.bind(this);
+        this.CONSTVIEW = {
+            name:"dropdown",
+        };
+
         this.state={
             onEdit:false,
             error:false,
@@ -56,9 +77,7 @@ export default class DROPDOWN extends COMPONENT {
         return val
     }
     setDefaultValue(val){
-
         $(this.refs.dropdown).dropdown('set exactly', val); //отправляй value
-       // $(this.refs.dropdown).dropdown('set exactly', [val]);
         $(this.refs.dropdown).dropdown('refresh');
     }
     setData(props){
@@ -70,36 +89,71 @@ export default class DROPDOWN extends COMPONENT {
         $(this.refs.dropdown).dropdown('set exactly', val); //отправляй value
         $(this.refs.dropdown).dropdown('refresh');
         this.dontCallOnChange = false;
-        // $(this.refs.dropdown).dropdown('set exactly', [val]);
-       // $(this.refs.dropdown).dropdown('refresh');
     }
     setDisabled(disabled){
         this.setState({disabled:disabled})
     }
+    mainClass(){
+        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+DependencyUI[this.CONSTVIEW.name]().mainClass;
+
+        if(this.state.disabled){
+            cssClass += " disabled ";
+        }
+        if(this.state.error){
+            cssClass += " error ";
+        }
+        if(this.props.label){
+            let labelPosition = this.props.labelPosition || "left";
+            cssClass += " have_"+this.CONSTVIEW.name+"_label_"+labelPosition+" ";
+        }
+        if(this.state.popupError){
+            cssClass += " have_"+this.CONSTVIEW.name+"_popupError ";
+        }
+        return cssClass
+    }
+    fieldClass(){
+        let cssClass = " nymphea_"+this.CONSTVIEW.name+"__field " ;
+        if(this.props.notSearch)  {
+            cssClass += DependencyUI[this.CONSTVIEW.name]().mainField;
+        }else{
+            cssClass += DependencyUI[this.CONSTVIEW.name]().searchField;
+        }
+        if(this.state.disabled) cssClass += " disabled ";
+        if(this.state.error)    cssClass += " error ";
+        return cssClass
+    }
     render(){
         var self = this;
         let ddIcon = [<i key="ddicon" className="dropdown icon"></i>]
-        let classDropdown = " ui fluid search selection dropdown ";
-        if(this.props.notSearch)  {
-            classDropdown = "ui dropdown label ";
+        let label;
+        let labelPosition = this.props.labelPosition || "left"
+        let classLabel = " nymphea_input__label "+ labelPosition;
+        let popupError;
 
+        if(this.state.label || this.props.label){
+            label= [<label key="label" className={classLabel}>{this.state.label || this.props.label}</label>]
         }
-        if(this.state.disabled) classDropdown += " disabled ";
+        if(this.state.popupError){
+            popupError = [ <div key="popupError" className="nymphea_input__popup_error ui pointing red basic label">
+                {this.state.popupError}
+            </div>]
+        }
 
         return(
-            <div className={this.props.error?"my dropdown__wrapper error":"my dropdown__wrapper"}>
-                {this.props.label?<label className="my my-label">{this.props.label}</label>:null}
+            <div className={this.mainClass()}>
+                {label}
                 {this.props.floatingLabel?
-                    <div className="floating ui label" data-content={this.props.floatingLabel || "Click to edit" } data-position={this.props.hoverPosition || "top center" }>
+                    <div className="floating ui label" data-content={this.props.floatingLabel || "Click to edit" } data-position={this.props.floatingLabelPosition || "top center" }>
                         <i className="info circle icon"></i>
                     </div>
                     :null}
-                <div className={classDropdown}  ref="dropdown">
+                <div className={this.fieldClass()}  ref="dropdown">
                     <input type="hidden" />
                     {this.props.notSearch? null:ddIcon}
                     <div className="default text">{this.props.placeholder}</div>
                     {this.props.notSearch? ddIcon:null}
                 </div>
+                {popupError}
             </div>
         )
     }

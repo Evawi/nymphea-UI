@@ -164,7 +164,18 @@ class UsedDependencyUI{
         }
     }
     dropdown(){
-
+        let SELF = this;
+        let mainClass = ""; //стиль элемента из UI зависимостей
+        let searchClass = ""
+        if(SELF.UI_Semantic) {
+            searchClass = " ui fluid search selection dropdown ";
+            mainClass = "ui dropdown label"
+        }
+        return {
+            mainClass: "ui form ",
+            mainField:mainClass,
+            searchField:searchClass
+        }
     }
 
 }
