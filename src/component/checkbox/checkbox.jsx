@@ -110,9 +110,9 @@ export default class CHECKBOX extends COMPONENT {
         if(this.state.error){
             classInput__field += " error ";
         }
-        if(this.state.label || this.props.label){
-            label= [<label key="label" className={classLabel}>{this.state.label || this.props.label}</label>]
-        }
+
+        label= [<label key="label" className={classLabel}>{(this.state.label || this.props.label) || ""}</label>]
+
         if(this.state.popupError){
             popupError = [ <div key="popupError" key="popupError" className="nymphea_input__popup_error ui pointing red basic label">
                 {this.state.popupError}
