@@ -121,8 +121,14 @@ export default class CHECKBOX extends COMPONENT {
         if(this.props.clickToLabel){
             input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
             label= [<label key="label" className={classLabel} onClick={this.onChange} >{this.state.label || this.props.label}</label>]
+            if(this.state.disabled){
+                input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" disabled="disabled" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
+            }
         }else{
-            input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} onChange={this.onChange}  />]
+            input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value}  onChange={this.onChange}  />]
+            if(this.state.disabled){
+                input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} disabled="disabled" onChange={this.onChange} />]
+            }
         }
         return(
             <div className={this.mainClass()}>
