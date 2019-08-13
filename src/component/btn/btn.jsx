@@ -33,7 +33,7 @@ export default class BTN extends COMPONENT {
             name:"button",
             mainClass: DependencyUI.btn().mainClass
         };
-
+        this.onClick          = this.onClick.bind(this);
         this.onClickWr        = this.onClickWr.bind(this);
         this.state={
             error       :false,
@@ -50,8 +50,12 @@ export default class BTN extends COMPONENT {
         $(this.refs.btn).click(function (event) {
             event.preventDefault();
             event.stopPropagation();
-            self.props.onClick({key_value:self.props.key_value},event)
+            self.onClick(event)
         })
+    }
+    onClick(event){
+        if(this.state.disable) return;
+        this.props.onClick({key_value:this.props.key_value},event)
     }
     onClickWr(){
         let self = this;

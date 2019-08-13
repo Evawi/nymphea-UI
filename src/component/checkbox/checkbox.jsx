@@ -52,6 +52,11 @@ export default class CHECKBOX extends COMPONENT {
         $(this.refs.editor).blur(function(e){
             if(self.props.onBlur)self.props.onBlur(e)
         })
+        $(this.refs.input).click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            self.onChange(event)
+        })
     }
     onChange(e){
         let self = this;
@@ -119,15 +124,15 @@ export default class CHECKBOX extends COMPONENT {
             </div>]
         }
         if(this.props.clickToLabel){
-            input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
+            input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" className="hidden" checked={this.state.value} onChange={this.onChange} ref="input" />]
             label= [<label key="label" className={classLabel} onClick={this.onChange} >{this.state.label || this.props.label}</label>]
             if(this.state.disabled){
-                input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" disabled="disabled" className="hidden" checked={this.state.value} onChange={this.onChange}  />]
+                input = [<input type="checkbox" key="checkboxhidden" name="public" tabIndex="0" disabled="disabled" className="hidden" checked={this.state.value} onChange={this.onChange} ref="input" />]
             }
         }else{
-            input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value}  onChange={this.onChange}  />]
+            input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value}  onChange={this.onChange}  ref="input" />]
             if(this.state.disabled){
-                input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} disabled="disabled" onChange={this.onChange} />]
+                input = [<input type="checkbox" key="checkbox" name="public" checked={this.state.value} disabled="disabled" onChange={this.onChange} ref="input" />]
             }
         }
         return(
