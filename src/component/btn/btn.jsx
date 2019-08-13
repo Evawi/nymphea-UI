@@ -34,7 +34,6 @@ export default class BTN extends COMPONENT {
             mainClass: DependencyUI.btn().mainClass
         };
 
-        this.onClick          = this.onClick.bind(this);
         this.onClickWr        = this.onClickWr.bind(this);
         this.state={
             error       :false,
@@ -46,8 +45,13 @@ export default class BTN extends COMPONENT {
             class:      ""
         }
     }
-    onClick(){
-        this.props.onClick({key_value:this.props.key_value})
+    componentDidMount(){
+        let self = this;
+        $(this.refs.btn).click(function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            self.props.onClick({key_value:self.props.key_value},event)
+        })
     }
     onClickWr(){
         let self = this;
@@ -105,7 +109,7 @@ export default class BTN extends COMPONENT {
         return(
             <div className={this.mainClass()} onClick={this.onClickWr}>
                 <div className={classInput__popup_label} data-tooltip={this.props.popupLabel} data-position={this.props.popupLabelPosition || "bottom right"}>
-                    <div className={classBtn__field} onClick={this.state.disable?null:this.onClick}  >
+                    <div className={classBtn__field} onClick={this.onClick} ref="btn"  >
                         {icon} {this.state.name}
                     </div>
                 </div>
