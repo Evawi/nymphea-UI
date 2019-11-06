@@ -11,13 +11,13 @@ class UsedDependencyUI{
         SELF.reinit = SELF.reinit.bind(this);
         SELF.input = SELF.input.bind(this);
 
-        SELF.UI_Semantic;
+        SELF.UI_Semantic; //depr
         SELF.UI_Material;
         SELF.UI_Default;
         if(window.UI_settings){
             if(window.UI_settings.UI){
                 switch (window.UI_settings.UI){
-                    case "Semantic" : SELF.UI_Semantic=true; break;
+                    case "Semantic" : SELF.UI_Semantic=true; break; //depr
                     case "Material" : SELF.UI_Material=true; break;
                     default: SELF.UI_Default=true;
                 }
@@ -27,13 +27,13 @@ class UsedDependencyUI{
     }
     reinit(){
         let SELF = this;
-        SELF.UI_Semantic;
+        SELF.UI_Semantic; //depr
         SELF.UI_Material;
         SELF.UI_Default;
         if(window.UI_settings){
             if(window.UI_settings.UI){
                 switch (window.UI_settings.UI){
-                    case "Semantic" : SELF.UI_Semantic=true; break;
+                    case "Semantic" : SELF.UI_Semantic=true; break; //depr
                     case "Material" : SELF.UI_Material=true; break;
                     default: SELF.UI_Default=true;
                 }
@@ -44,9 +44,13 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let formField = "";
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic) { //depr
             mainClass = " ui input form ";
             formField = " field "
+        }
+        if(SELF.UI_Material) {
+            mainClass = " ui input form ";
+            formField = " mdc-text-field "
         }
         return {
             mainClass:mainClass,
@@ -60,7 +64,7 @@ class UsedDependencyUI{
         let iconEdit = "";
         let iconCheck = "" ;
         let iconCancel = ""
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui input form ";
             formField = " field ";
             iconEdit      = " edit icon ";
@@ -92,7 +96,7 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let btnClass = "";
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui fluid search selection dropdown  ";
             btnClass = " ui button "
         }
@@ -101,25 +105,12 @@ class UsedDependencyUI{
             btnClass:btnClass
         }
     }
-    input(){
-        let SELF = this;
-        let mainClass = ""; //стиль элемента из UI зависимостей
-        let formField = "";
-        if(SELF.UI_Semantic) {
-            mainClass = " ui input form ";
-            formField = " field "
-        }
-        return {
-            mainClass:mainClass,
-            formField:formField
-        }
-    }
     checkbox(){
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let toggleType = "";
         let sliderType = "";
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui checkbox ";
             toggleType = " toggle ";
             sliderType = " slider ";
@@ -134,7 +125,7 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let formField = "";
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui calendar form ";
             formField = " ui calendar "
         }
@@ -146,7 +137,7 @@ class UsedDependencyUI{
     label(){
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui label ";
         }
         return {
@@ -156,7 +147,7 @@ class UsedDependencyUI{
     textarea(){
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             mainClass = " ui textarea form";
         }
         return {
@@ -167,7 +158,7 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let searchClass = ""
-        if(SELF.UI_Semantic) {
+        if(SELF.UI_Semantic || SELF.UI_Material) {
             searchClass = " ui fluid search selection dropdown ";
             mainClass = "ui dropdown label"
         }

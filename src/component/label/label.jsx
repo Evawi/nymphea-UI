@@ -2,9 +2,11 @@
 import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
 /* props:
+ * key_value         = " "    //идентификатор поля
  * position          = "horizontal" || "attached"(top,bottom,top right, top left,bottom left,bottom right) || "floating"   //позиция
  * customClass       = " "    //дополнительный класс
- * icon = "" //class иконки
+ * icon              = ""  //class иконки
+ * onClick           = null  //событие нажатия по всему полю mainClass
  * */
 
 /*state
@@ -56,7 +58,7 @@ export default class INPUT extends COMPONENT {
             icon = [<i key="icon" className={this.state.icon+" icon"}></i>]
         }
         return(
-            <div className={this.mainClass()}>
+            <div className={this.mainClass()} onClick={this.props.onClick? this.props.onClick.bind(null,this.props.key_value) : null}>
                 {icon}
                 {this.state.value}
             </div>
