@@ -1,14 +1,19 @@
 'use strict';
 import COMPONENT  from '../../class/component.class.jsx';
 import DependencyUI  from '../../extra/checkDependencyUI.js';
+import Tooltip  from '../tooltip/tooltip.jsx';
 require("./btn.less");
 
 /* props:
  * key_value = "some key" опознавательный ключ, отправляется при onClick
+ * subClass = "" || "outline" || "raised" //MU классы
+ * class = "btn_class" || "" //дополниельный стиль для кнопки
+ *
+ *
  * popupLabel    = "label value" || "" //всплывающая подсказка
  * popupLabelPosition =    default "bottom right"
  * popupErrorPosition =  default ""  //"" || "below" || "left" || "right"  //позиция ошибки
- * class = "btn_class" || "" //дополниельный стиль для кнопки
+ *
  * onClick = fnc
  * name=""//изначально берется отсуюда, в дальнейшем может быть изменено через state
  * icon = "name icon" ||""  //изначально берется отсуюда, в дальнейшем может быть изменено через state
@@ -18,6 +23,7 @@ require("./btn.less");
 /*state
  * disabled =
  * error =
+ * popupLabel=""
  * popupError = "label value" || "" //
  * name = "name btn" || "" //если есть, добавит на кнопку название
  * icon = "name icon" ||"" //если есть будет рисовать иконку в названии перекрывает props.icon
@@ -25,35 +31,45 @@ require("./btn.less");
  * */
 
 
-export default class BTN extends COMPONENT {
+export default class BTN_MU extends COMPONENT {
     constructor(props){
         super(props);
 
         this.CONSTVIEW = {
-            name:"button",
-            mainClass: DependencyUI.btn().mainClass
+            name:" button ",
+            mainClass: " mdc-button ",
+            outline:" mdc-button--outlined ",
+            raised:" mdc-button--raised ",
         };
         this.onClick          = this.onClick.bind(this);
         this.onClickWr        = this.onClickWr.bind(this);
         this.state={
-            error       :false,
+            error       :props.error  || false,
+            showPopupError:props.showPopupError  || false,
+            popupError  :props.popupError  || false ,
+
+            popupLabel  :props.popupLabel  || false ,
+
             disabled    :props.disabled || false ,
-            showPopupError:false,
-            popupError  :false,
             name        :props.name,
             icon        :props.icon || "",
-            class:      ""
+            class:      "",
+            tooltip     :""
         }
     }
     componentDidMount(){
         let self = this;
-        /*$(this.refs.btn).click(function (event) {
+        $(this.refs.btn).click(function (event) {
             event.preventDefault();
             event.stopPropagation();
             self.onClick(event)
-        })*/
+        })
+        if(this.state.popupLabel){
+            this.setState({tooltip:<Tooltip text={this.state.popupLabel} position={this.props.popupLabelPosition} target={this.refs.btn} />})
+        }
     }
     onClick(event){
+
         if(this.state.disable) return;
         this.props.onClick({key_value:this.props.key_value},event)
     }
@@ -69,7 +85,7 @@ export default class BTN extends COMPONENT {
         }
     }
     mainClass(){
-        let cssClass = " nymphea_"+this.CONSTVIEW.name+" "+ this.CONSTVIEW.mainClass;
+        let cssClass = " nymphea_"+this.CONSTVIEW.name;
         if(this.state.disabled){
             cssClass += " disabled ";
         }
@@ -87,37 +103,35 @@ export default class BTN extends COMPONENT {
         }
         return cssClass
     }
-    render(){
-        let classBtn__field = " nymphea_"+this.CONSTVIEW.name+"__field " + DependencyUI.btn().btnClass;
-        if(this.state.disabled){
-            classBtn__field += " disabled ";
-        }
-        if(this.state.error){
-            classBtn__field += " error ";
-        }
+    elementClass(){
+        let cssClass = " gl_btn "+this.CONSTVIEW.mainClass;
+        switch (this.props.subClass){
+            case "outline":  cssClass += this.CONSTVIEW.outline; break;
+            case "raised":   cssClass += this.CONSTVIEW.raised; break;
+            default:         cssClass = cssClass; break;
+    }
 
+        return cssClass
+    }
+    render(){
+        let disabled = false
+        if(this.state.disabled){
+            disabled = true
+        }
         let icon;
         if(this.state.icon){
-            icon = <i className= {this.state.icon + " icon "}></i>
+            icon = <i className="material-icons mdc-button__icon" aria-hidden="true">{this.state.icon}</i>
         }
-
-        let popupLabelPosition = this.props.popupLabelPosition || " bottom center ";
-        let classInput__popup_label = " nymphea_"+this.CONSTVIEW.name+"__popup_label " + popupLabelPosition;
-        let popupError;
-
-        if(this.state.showPopupError){
-            popupError = [ <div key="popupError" className={"nymphea_"+this.CONSTVIEW.name+"__popup_error ui pointing red basic label "+this.props.popupErrorPosition||""}>
-                {this.state.popupError}
-            </div>]
+        let label;
+        if(this.state.name){
+            label = <span className="mdc-button__label">{this.state.name}</span>
         }
         return(
-            <div className={this.mainClass()} onClick={this.onClickWr}>
-                <div className={classInput__popup_label} data-tooltip={this.props.popupLabel} data-position={this.props.popupLabelPosition || "bottom right"}>
-                    <div className={classBtn__field} onClick={this.onClick} ref="btn"  >
-                        {icon} {this.state.name}
-                    </div>
-                </div>
-                {popupError}
+            <div className={this.mainClass()} onClick={this.onClickWr} ref="btn_wrapper">
+                <button className={this.elementClass()} onClick={this.onClick} ref="btn" disabled={disabled} >
+                    {icon}{label}
+                </button>
+                {this.state.tooltip}
             </div>
         )
     }

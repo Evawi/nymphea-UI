@@ -15,6 +15,9 @@ class UsedDependencyUI{
         SELF.UI_Material;
         SELF.UI_Default;
         if(window.UI_settings){
+            if(window.UI_settings.Tooltip){
+                SELF.Tooltip = window.UI_settings.Tooltip.ensure;
+            }
             if(window.UI_settings.UI){
                 switch (window.UI_settings.UI){
                     case "Semantic" : SELF.UI_Semantic=true; break; //depr
@@ -23,7 +26,8 @@ class UsedDependencyUI{
                 }
             }
         }
-        
+
+        SELF.Tooltip;
     }
     reinit(){
         let SELF = this;
@@ -31,6 +35,9 @@ class UsedDependencyUI{
         SELF.UI_Material;
         SELF.UI_Default;
         if(window.UI_settings){
+            if(window.UI_settings.Tooltip){
+                SELF.Tooltip = window.UI_settings.Tooltip.ensure;
+            }
             if(window.UI_settings.UI){
                 switch (window.UI_settings.UI){
                     case "Semantic" : SELF.UI_Semantic=true; break; //depr
@@ -64,13 +71,13 @@ class UsedDependencyUI{
         let iconEdit = "";
         let iconCheck = "" ;
         let iconCancel = ""
-        if(SELF.UI_Semantic || SELF.UI_Material) {
-            mainClass = " ui input form ";
-            formField = " field ";
-            iconEdit      = " edit icon ";
-            iconCheck   = " icon check ";
-            iconCancel = " close icon "
-        }
+
+        mainClass = " ui input form ";
+        formField = " field ";
+        iconEdit      = " edit icon ";
+        iconCheck   = " icon check ";
+        iconCancel = " close icon ";
+
         return {
             mainClass:mainClass,
             formField:formField,
@@ -87,6 +94,10 @@ class UsedDependencyUI{
             mainClass = " btn ";
             btnClass = " ui button "
         }
+        if(SELF.UI_Material) {
+            mainClass = " btn ";
+            btnClass = " ui button "
+        }
         return {
             mainClass:mainClass,
             btnClass:btnClass
@@ -96,10 +107,10 @@ class UsedDependencyUI{
         let SELF = this;
         let mainClass = ""; //стиль элемента из UI зависимостей
         let btnClass = "";
-        if(SELF.UI_Semantic || SELF.UI_Material) {
-            mainClass = " ui fluid search selection dropdown  ";
-            btnClass = " ui button "
-        }
+
+        mainClass = " ui fluid search selection dropdown  ";
+        btnClass = " ui button "
+
         return {
             mainClass:mainClass,
             btnClass:btnClass
@@ -110,7 +121,12 @@ class UsedDependencyUI{
         let mainClass = ""; //стиль элемента из UI зависимостей
         let toggleType = "";
         let sliderType = "";
-        if(SELF.UI_Semantic || SELF.UI_Material) {
+        if(SELF.UI_Semantic ) {
+            mainClass = " ui checkbox ";
+            toggleType = " toggle ";
+            sliderType = " slider ";
+        }
+        if(SELF.UI_Material) {
             mainClass = " ui checkbox ";
             toggleType = " toggle ";
             sliderType = " slider ";
