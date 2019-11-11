@@ -65,7 +65,12 @@ export default class BTN_MU extends COMPONENT {
             self.onClick(event)
         })
         if(this.state.popupLabel){
-            this.setState({tooltip:<Tooltip text={this.state.popupLabel} position={this.props.popupLabelPosition} target={this.refs.btn} />})
+            this.setState({
+                tooltip:<Tooltip
+                    text={this.state.popupLabel}
+                    position={this.props.popupLabelPosition}
+                    target={this.refs.btn}
+                />})
         }
     }
     onClick(event){

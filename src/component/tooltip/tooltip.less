@@ -3,14 +3,19 @@
 .nymphea_tooltip{
   @height:24px;
   position: absolute;
-  font-family: Roboto, sans-serif;
-  font-size: 12px;
-  border-radius: 4px;
-  height: @height;
-  line-height: @height;
-  padding: 0 @ind-m;
-  color:"#ffffff";
-  background: "#616161e6";
+
+  .dx-popup-content{
+    font-family: Roboto, sans-serif;
+    font-size: 12px;
+    text-transform: uppercase;
+    border-radius: 4px;
+    height: @height;
+    line-height: @height;
+    padding: @ind-m 0 ;
+    min-height: @height;
+  }
+  .dx-popover-arrow{
+  }
   &.template{
     height: auto;
   }

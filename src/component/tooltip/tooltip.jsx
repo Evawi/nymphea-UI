@@ -16,6 +16,7 @@ require("./tooltip.less");
  * position         = default "bottom"
  * text             = ""
  * contentTemplate  = default false || data.html("")  // используется если необходимо добавить кастомизацию в тултип
+ * closeOnOutsideClick = default false || true   //закрывать по клику снаружи
  * class            = "btn_class" || "" //дополниельный стиль
  * */
 
@@ -51,7 +52,7 @@ export default class TOOLTIP extends COMPONENT {
             target: self.props.target,
             showEvent: "mouseenter",
             hideEvent: "mouseleave",
-            closeOnOutsideClick: false,
+            closeOnOutsideClick: self.props.closeOnOutsideClick||false,
             position: self.props.position || "bottom"
         }
         if(self.props.contentTemplate)       props.contentTemplate = self.props.contentTemplate;
