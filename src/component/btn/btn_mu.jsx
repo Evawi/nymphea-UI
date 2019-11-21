@@ -28,6 +28,8 @@ require("./btn.less");
  * name = "name btn" || "" //если есть, добавит на кнопку название
  * icon = "name icon" ||"" //если есть будет рисовать иконку в названии перекрывает props.icon
  * class= "name_class" ||"" //дополнительный стиль для кноки добавляется к props.class
+ * smallText = "" //уменьшенный текст под иконкой
+ * smallIcon = "" //уменьшенная иконка под иконкой
  * */
 
 
@@ -53,6 +55,8 @@ export default class BTN_MU extends COMPONENT {
             disabled    :props.disabled || false ,
             name        :props.name,
             icon        :props.icon || "",
+            smallIcon   :props.smallIcon || "",
+            smallText   :props.smallText || "",
             class:      "",
             tooltip     :""
         }
@@ -114,8 +118,13 @@ export default class BTN_MU extends COMPONENT {
             case "outline":  cssClass += this.CONSTVIEW.outline; break;
             case "raised":   cssClass += this.CONSTVIEW.raised; break;
             default:         cssClass = cssClass; break;
-    }
-
+        }
+        if(this.state.disabled){
+            cssClass += " disabled ";
+        }
+        if(this.state.smallText){
+            cssClass += " have_small_text ";
+        }
         return cssClass
     }
     render(){
@@ -131,10 +140,18 @@ export default class BTN_MU extends COMPONENT {
         if(this.state.name){
             label = <span className="mdc-button__label">{this.state.name}</span>
         }
+        let smallIcon;
+        if(this.state.smallIcon){
+            smallIcon = <span className="gl_btn_small_icon"><i className="material-icons mdc-button__icon" aria-hidden="true">{this.state.smallIcon}</i></span>
+        }
+        let smallText;
+        if(this.state.smallText){
+            smallText = <span className="gl_btn_small_text">{this.state.smallText}</span>
+        }
         return(
             <div className={this.mainClass()} onClick={this.onClickWr} ref="btn_wrapper">
                 <button className={this.elementClass()} onClick={this.onClick} ref="btn" disabled={disabled} >
-                    {icon}{label}
+                    {icon}{label}{smallIcon}{smallText}
                 </button>
                 {this.state.tooltip}
             </div>

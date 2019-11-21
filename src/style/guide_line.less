@@ -40,8 +40,19 @@
   .mdc-button__label + .mdc-button__icon{
     margin-right: @ind-m;
   }
+  .gl_btn_small_text{
+    position: absolute;
+    font-size: 70%;
+    bottom:@ind-s;
+    width: 100%;
+    text-align: center;
+  }
   .btn(@color-p);
-
+  &.have_small_text{
+    .mdc-button__icon{
+      margin-bottom: @ind-s;
+    }
+  }
   &.fatal{
     .btn(@color-fatal)
   }
