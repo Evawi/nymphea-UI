@@ -84,10 +84,10 @@ module.exports = (env, argv) => {
         config.optimization = {
             splitChunks: {
                 cacheGroups: {
-                default: {
+                    default: {
                         minChunks: 2,
-                            priority: -20,
-                            reuseExistingChunk: true
+                        priority: -20,
+                        reuseExistingChunk: true
                     }
                 }
             }
@@ -122,13 +122,13 @@ module.exports = (env, argv) => {
         config.watchOptions = {
             aggregateTimeout:100
         };
-       config.optimization = {
+        config.optimization = {
             splitChunks: {
                 cacheGroups: {
-                default: {
+                    default: {
                         minChunks: 2,
-                            priority: -20,
-                            reuseExistingChunk: true
+                        priority: -20,
+                        reuseExistingChunk: true
                     }
                 }
             },
