@@ -33,6 +33,13 @@ export default class ComponentReat extends React.Component {
     getRefs(){
         return this.refs;
     }
+    componentWillUnmount(){
+        _.each(this.refs,(node,key)=>{
+            try {
+                ReactDom.unmountComponentAtNode(node)
+            }catch (msg){}
+        });
+    }
     render(){
         return (
             <div ref="Component" className="component"></div>

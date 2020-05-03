@@ -1,4 +1,7 @@
 @import "guide_line";
+@use "@material/list/mdc-list";
+@use "@material/menu-surface/mdc-menu-surface";
+@use "@material/menu/mdc-menu";
 
 html, body{
   .no-ind();
@@ -10,4 +13,18 @@ html, body{
 .nya-row{
 	width:100%;
 	display:block;
+}
+
+.nymphea_button{
+	position: relative;
+	&.fatal{
+		.gl_btn{
+			.btn(@color-fatal)
+		}
+	}
+	&.success{
+		.gl_btn{
+			.btn(@color-success)
+		}
+	}
 }

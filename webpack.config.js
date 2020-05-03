@@ -22,7 +22,7 @@ var config = {
     output: {
         path: __dirname+"/../public",
         filename: '[name].v_'+ver+'.js',
-        publicPath:__dirname+'/dist/public/',
+        publicPath:__dirname+'/../public/',
         library:"[name]",
         libraryTarget: 'umd'
     },
@@ -84,10 +84,10 @@ module.exports = (env, argv) => {
         config.optimization = {
             splitChunks: {
                 cacheGroups: {
-                    default: {
+                default: {
                         minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true
+                            priority: -20,
+                            reuseExistingChunk: true
                     }
                 }
             }
@@ -110,7 +110,7 @@ module.exports = (env, argv) => {
             }),
             new webpack.ProvidePlugin({
                 $ : "jquery",
-                Nya : [__dirname+"/nymphea/nymphea.v_0.0.4.js",'default'], //подключение моих вп модулей
+                Nya : [__dirname+"/nymphea/nymphea.v_0.0.5.js",'default'], //подключение моих вп модулей
                 _ : "underscore"
             }),
 
@@ -122,13 +122,13 @@ module.exports = (env, argv) => {
         config.watchOptions = {
             aggregateTimeout:100
         };
-        config.optimization = {
+       config.optimization = {
             splitChunks: {
                 cacheGroups: {
-                    default: {
+                default: {
                         minChunks: 2,
-                        priority: -20,
-                        reuseExistingChunk: true
+                            priority: -20,
+                            reuseExistingChunk: true
                     }
                 }
             },
